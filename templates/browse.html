@@ -1,0 +1,112 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<div data-role="page" id="browse" data-theme="d">
+
+    <div data-theme="a" data-role="header">
+
+
+    	<h3>EatingDays</h3>
+        <a href="/about" data-transition="slide" data-theme="" data-icon="info" data-iconpos="right" class="ui-body-c ui-btn-right nav-btn">About</a>
+    	<div data-role="navbar" data-iconpos="right" class="nav">
+    			<ul>
+    					<li>
+    							<a href="/" data-ajax='false' data-transition="fade" data-theme="" class="ui-body-c">
+    									Home
+    							</a>
+    					</li>
+    					<li>
+    							<a href="" data-ajax='false' data-transition="fade" data-theme="" class="ui-btn-active ui-state-persist ui-body-c">
+    									Browse
+    							</a>
+    					</li>
+    					<li>
+    							<a href="/profile" data-ajax='false' data-transition="fade" data-theme="" class="ui-body-c">
+    									Settings
+    							</a>
+    					</li>
+    			</ul>
+    	</div><!-- navbar -->
+    </div><!--header-->
+
+    <div data-role="content" class='background'>
+            {% if not session.logged_in %}
+    			<a class="loginnotif" href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-icon="info" data-transition="slidedown" data-theme="e" data-corners="false">
+    				In order to access the full features of the site, you'll have to sign in or register!
+    			</a>
+    			<div data-role="popup" id="popupLogin" class="ui-corner-all" data-theme="a">
+    				<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-left">Close</a>
+
+    				<form action="{{url_for('login')}}" method="post">
+    					<div style="padding:10px 20px;">
+    						<h3>Please sign in</h3>
+    						<label for="un" class="ui-hidden-accessible">Username:</label>
+    						<input type="text" name="username" id="un" value="{{request.form.username}}" placeholder="username" data-theme="a" required />
+    						<label for="pw" class="ui-hidden-accessible">Password:</label>
+    						<input type="password" name="password" id="pw" value="" placeholder="password" data-theme="a" required />
+    						<button type="submit" data-theme="b" data-icon="check">Sign in</button>
+                            <a href="#popupRegister" data-rel="popup" data-position-to="window" data-role="button" data-icon="info" data-transition="slidedown" data-theme="d">
+            		        New User?
+    			            </a>
+    					</div>
+    				</form>
+    			</div>
+                <div data-role="popup" id="popupRegister" class="ui-corner-all" data-theme="a">
+        			<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-left">Close</a>
+
+    				<form action="{{url_for('signup')}}" method="post">
+    					<div style="padding:10px 20px;">
+    						<h3>Please key in your chosen Username and Passcode</h3>
+    						<label for="un" class="ui-hidden-accessible">Username (At least four characters) </label>
+    						<input type="text" name="username" id="un" value="{{request.form.username}}" placeholder="Username (alphanumeric and special characters, no spaces)" pattern="[A-Za-z0-9~!@#$%^&*_]{4,}" data-theme="a" required>
+
+    						<label for="pw" class="ui-hidden-accessible">Passcode (4 numbers) </label>
+    						<input type="tel" name="password1" id="pw" value="" placeholder="passcode (4 numbers)" pattern="[0-9]{4}" data-theme="a" required>
+
+    						<label for="pw" class="ui-hidden-accessible">Confirm Passcode </label>
+    						<input type="tel" name="password2" id="pw" value="" placeholder="confirm passcode" pattern="[0-9]{4}" data-theme="a" required>
+
+    						<button type="submit" data-theme="b" data-icon="check">Sign in</button>
+    					</div>
+    				</form>
+    			</div>
+
+    		{% endif %}
+
+        <fieldset data-role="controlgroup" data-type="horizontal">
+            <legend>Filter stores according to:</legend>
+            <a href="#" data-role="button" data-mini="true" class="add-btn"><h3><strong>High Blood Pressure </strong></h3></a>
+            <a href="#" data-role="button" data-mini="true" class="add-btn"><h3><strong>Diabetes </strong></h3></a>
+            <!--<input type="checkbox" id="checkbox-hbp">
+             <label for="checkbox-hbp" class="add-btn">High Blood Pressure</label>
+            <input type="checkbox" id="checkbox-diabetes" class="add-btn">
+             <label for="checkbox-diabetes" class="add-btn">Diabetes</label>-->
+        </fieldset>
+        <br />
+
+        <ul data-role="listview" data-filter="true" data-filter-placeholder="Search Stores..." data-filter-reveal="false" data-autodividers="false" id="stores">
+            {% for store in stores %}
+            <li>
+                <a href="#{{ store.sid }}" data-transition="slide">
+                    <img src=http://aussiroth.pythonanywhere.com/static/img/thumb/{{ store.pictures }}>
+                    <h1>{{store.name}}</h1>
+                    <p>{{store.description}}</p>
+                    <p class="hidden">{% if store.diabetes %}Diabetes {% endif %}{% if store.hbp %}High Blood Pressure {% endif %}{% if store.diabetes %}Diabetes {% endif %}{{store.address}}{{store.description}}{{store.examples}}{{store.good}}</p>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <script src="{{ url_for('static', filename='js/filter.js')}}"></script>
+
+
+    </div><!--content -->
+
+    <div data-role="footer" id="tips" data-position="fixed"></div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tips.js')}}"></script>
+
+</div><!-- page -->
+
+
+
+{% endblock %}

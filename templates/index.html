@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="google-translate-customization" content="a617c5149acf20bf-14b5f0c1485bef42-ga589fcab8ee5b5e3-1c"></meta>
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+
+    	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+        <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.mobile-1.3.1.css')}}">-->
+
+		<script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-42739229-1', 'pythonanywhere.com');
+          ga('send', 'pageview');
+        </script>
+
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+              new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,ms,ta,zh-CN,zh-TW', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+            }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <!-- panel removed
+        <div data-role="panel" id="myPanel" data-theme="a" data-display="push" >
+    			<ul data-role="listview">
+    					<li><a href="/">Home</a></li>
+    					<li><a href="/browse">Browse</a></li>
+    					<li><a href="/profile">User</a></li>
+    					<li><a href="/about">About</a></li>
+
+
+    			</ul>
+
+    	</div> --> <!-- /panel -->
+
+
+            <!-- content block -->
+			{% block content %}
+		    {% endblock %}
+
+
+{% for store in stores %}
+
+    <div data-role="page" id={{ store.sid }} data-theme="d" class="browse background">
+        <div data-role="header">
+            <a href="#" data-icon="back" data-rel="back">Cancel</a>
+            <h3 id="header-left">{{ store.name }}</h3>
+        </div><!-- header -->
+
+        <div data-role="popup" id="popup{{ store.sid }}" data-overlay-theme="a" data-theme="d" data-corners="false">
+            <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a><img src="http://aussiroth.pythonanywhere.com/static/img/{{ store.pictures }}" alt="{{ store.description }}">
+        </div>
+
+        <div data-role="content">
+            <a href="#popup{{ store.sid }}" data-rel="popup" data-position-to="window" data-transition="fade"><img src="http://aussiroth.pythonanywhere.com/static/img/{{ store.pictures }}"</img></a>
+
+            <div style="max-width:900px;margin:0 auto;margin-left:auto;margin-right:auto;text-align:justify;align:center;"><p class="body">{{ store.description }}</p></div>
+
+            <table data-role="table" class="ui-body-d ui-shadow table-stripe ui-responsive background">
+             <thead>
+               <tr class="ui-bar-b">
+                 <th>Address</th>
+                 <th>Opening hours</th>
+                 <th>Contact</th>
+               </tr>
+             </thead>
+             <tbody>
+
+               {% for repeats in range(store.repeat) %}
+               <tr>
+                 <th class="ui-bar-d"> {{ store.address[repeats] }}</th>
+                 <td class="ui-bar-c"> {{ store.hours[repeats] }}  </td>
+                 <td class="ui-bar-d"> {{ store.contact[repeats] }}  </td>
+               </tr>
+                {% endfor %}
+             </tbody>
+           </table>
+     <p>Examples of food sold: {{ store.examples }} </p>
+           <table data-role="table" class="ui-body-d ui-shadow table-stripe ui-responsive">
+            <thead>
+                <tr class="ui-bar-b">
+                    <th>Suitable for Diabetes</th>
+                    <th>Suitable for High Blood Pressure</th>
+            </thead>
+
+            <tr>
+                <td class="ui-bar-c"> {% if store.diabetes %} Yes {% else %} No {% endif %}</td>
+                <td class="ui-bar-d"> {% if store.hbp %} Yes {% else %} No {% endif %}</td>
+            </tr>
+
+            </table>
+             {% if store.email %}
+            <p> You can email them at: {{ store.email }}</p>
+
+
+            {% endif %}
+        </div><!-- content -->
+
+    </div>
+{% endfor %}
+    </body>
+</html>

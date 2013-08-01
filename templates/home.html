@@ -1,0 +1,54 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<div data-role="page" id="home" data-theme="c" class='background'>
+
+    <div data-theme="a" data-role="header">
+        <!-- panel <a href="#myPanel" data-icon="bars" data-theme="b" data-iconpos="notext"></a> -->
+        <h3>EatingDays</h3>
+        <a href="/about" data-transition="slide" data-theme="" data-icon="info" data-iconpos="left" class="ui-body-c ui-btn-right nav-btn">About</a>
+        <div data-role="navbar" data-iconpos="right" class="nav">
+            <ul>
+                <li>
+                    <a href="" data-ajax="false" data-transition="fade" data-theme=""
+                    class="ui-btn-active ui-state-persist ui-body-c">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="/browse" data-ajax="false" data-transition="fade" data-theme="" class="ui-body-c">
+                        Browse
+                    </a>
+                </li>
+                <li>
+                    <a href="/profile" data-ajax="false" data-transition="fade" data-theme="" class="ui-body-c">
+                        Settings
+                    </a>
+                </li>
+            </ul>
+        </div><!-- navbar -->
+
+
+
+    </div><!-- header -->
+
+    <div data-role="content">
+        <div id="google_translate_element"></div><script type="text/javascript"></script>
+
+        <p class="body">
+            Welcome to EatingDays! This app is specifically designed for the elderly of Singapore to change their unhealthy lifestyle with a healthy diet! Click the Settings button to create an account to access all the features of this app, or start immediately by clicking Browse.
+        </p>
+
+        <p class="body">
+            Use the filter button to search for what food is good for you. For example, if you have diabetes, click on the diabetes button to filter out the food that's unhealthy for you.
+        </p>
+
+    </div><!--content -->
+
+    <div data-role="footer" id="tips" data-position="fixed"></div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tips.js')}}"></script>
+
+</div><!-- page -->
+
+
+{% endblock %}

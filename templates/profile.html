@@ -1,0 +1,122 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<div data-role="page" id="settings" data-theme="d" class='background'>
+
+    <div data-theme="a" data-role="header">
+        <!--<a href="#myPanel" data-icon="bars" data-theme="b" data-iconpos="notext"></a>-->
+        <h3>EatingDays</h3>
+        <a href="/about" data-transition="slide" data-theme="" data-icon="info" data-iconpos="left" class="ui-body-c ui-btn-right nav-btn">About</a>
+        <div data-role="navbar" data-iconpos="right" class="nav">
+            <ul>
+                <li>
+                    <a href="/" data-ajax="false" data-transition="fade" data-theme="" class="ui-body-c">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="/browse" data-ajax="false" data-transition="fade" data-theme="" class="ui-body-c">
+                        Browse
+                    </a>
+                </li>
+                <li>
+                    <a href="/profile" data-ajax="false" data-transition="fade" data-theme="" class="ui-body-c ui-btn-active ui-state-persist ">
+                        Settings
+                    </a>
+                </li>
+            </ul>
+        </div><!-- navbar -->
+
+    </div><!-- header -->
+
+    <div data-role="content">
+        {{ error }}<br />
+
+        {% if not session.logged_in %}
+
+    			<a href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-icon="info" data-transition="slidedown" data-theme="e">
+    				Login
+    			</a>
+    			<a href="#popupRegister" data-rel="popup" data-position-to="window" data-role="button" data-icon="info" data-transition="slidedown" data-theme="d">
+    				Sign Up
+    			</a>
+
+    			<div data-role="popup" id="popupLogin" class="ui-corner-all" data-theme="a">
+    				<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-left">Close</a>
+
+    				<!-- login popup -->
+    				<form action="{{url_for('login')}}" method="post">
+    					<div style="padding:10px 20px;">
+    						<h3>Please sign in</h3>
+    						<label for="un" class="ui-hidden-accessible">Username:</label>
+    						<input type="text" name="username" id="un" value="{{request.form.username}}" placeholder="username" data-theme="a">
+    						<label for="pw" class="ui-hidden-accessible">Password:</label>
+    						<input type="password" name="password" id="pw" value="" placeholder="password" data-theme="a">
+    						<button type="submit" data-theme="b" data-icon="check">Sign in</button>
+                            <a href="#popupRegister" data-rel="popup" data-position-to="window" data-role="button" data-icon="info" data-transition="slidedown" data-theme="d">
+        			New User?
+    			</a>
+    					</div>
+    				</form>
+    			</div>
+
+    			<!-- register popup -->
+    			<div data-role="popup" id="popupRegister" class="ui-corner-all" data-theme="a">
+    				<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-left">Close</a>
+
+    				<form action="{{url_for('signup')}}" method="post">
+    					<div style="padding:10px 20px;">
+    						<h3>Please key in your chosen Username and Passcode</h3>
+    						<label for="un" class="ui-hidden-accessible">Username (At least four characters) </label>
+    						<input type="text" name="username" id="un" value="{{request.form.username}}" placeholder="Username (alphanumeric and special characters, no spaces)" pattern="[A-Za-z0-9~!@#$%^&*_]{4,}" data-theme="a" required>
+
+    						<label for="pw" class="ui-hidden-accessible">Passcode (4 numbers) </label>
+    						<input type="tel" name="password1" id="pw" value="" placeholder="passcode (4 numbers)" pattern="[0-9]{4}" data-theme="a" required>
+
+    						<label for="pw" class="ui-hidden-accessible">Confirm Passcode </label>
+    						<input type="tel" name="password2" id="pw" value="" placeholder="confirm passcode" pattern="[0-9]{4}" data-theme="a" required>
+
+    						<button type="submit" data-theme="b" data-icon="check">Register</button>
+    					</div>
+    				</form>
+    			</div>
+    		{% else %}
+                <div data-role="collapsible" data-inset="false" data-theme="c" data-content-theme="d" data-collapsed="false">
+                    <h4>Indicate Health Conditions</h4>
+                    <form action="{{url_for('health')}}" method="post">
+                        <div id="checkboxes" data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-type="vertical">
+                                <input id="checkbox1" name="checkbox1" type="checkbox" {% if health1 %}checked{% endif %} >
+                                <label for="checkbox1">
+                                    Heart Problems
+                                </label>
+                                <input id="checkbox2" name="checkbox2" type="checkbox" {% if health2 %}checked{% endif %}>
+                                <label for="checkbox2">
+                                    High Blood Pressure
+                                </label>
+                                <input id="checkbox3" name="checkbox3" type="checkbox" {% if health3 %}checked{% endif %}>
+                                <label for="checkbox3">
+                                    Diabetes
+                                </label>
+                            </fieldset>
+                        </div>
+                        <input type="submit" data-theme="b" value="Submit">
+                    </form>
+                </div>
+
+                <a href="/logout" data-position-to="window" data-role="button" data-icon="delete" data-theme="e">
+            		Log out!
+    			</a>
+
+    		{% endif %}
+
+    </div><!-- content -->
+
+    <div data-role="footer" id="tips" data-position="fixed"></div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tips.js')}}"></script>
+
+
+
+</div> <!-- page -->
+
+{% endblock %}
